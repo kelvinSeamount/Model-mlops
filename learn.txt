@@ -1,0 +1,23 @@
+Why Automate ML Training?
+When I started learning ML, data scientists just ran training scripts manually on their laptops.
+This doesn't scale and creates the classic "works on my machine" problem different Python versions, 
+libraries, and environments everywhere.
+
+How CI/CD Fixes This
+With GitHub Actions (or Jenkins), you set automation rules:
+
+Push code → training runs automatically
+Merge PR → model retrains
+Data updates → new training starts
+
+Training happens consistently in the same environment every time.
+
+
+Key Benefits
+Clean slate every run No cached files or forgotten dependencies
+Everything tracked Every model tied to a Git commit, so you always know what code created it
+Fails fast Broken dependencies or bad data? You find out immediately, not in production
+No manual work No more emailing model files or remembering to run scripts
+Bottom Line
+You stop depending on someone's laptop and manual steps. 
+Training becomes predictable and repeatable that's the foundation of MLOps.
