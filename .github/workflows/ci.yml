@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  matrix-pip:        
+  matrix-pip:        # matrix strategy to the entire job twice, once for each python version
     name: Train -model
     runs-on: ubuntu-latest
     strategy:
@@ -15,27 +15,27 @@ jobs:
         python-version: [3.11, 3.12]
 
     steps:    
-      - name: Checkout 
+      - name: Checkout  #checkout the repository
         uses: actions/checkout@v4
 
 
-      - name: Setup python
+      - name: Setup python  #set up the python version from the matrix
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Upgrade pip
+      - name: Upgrade pip   #upgrade package manager 
         run: python -m pip install --upgrade pip setuptools wheel
 
-      - name: Install dependencies
+      - name: Install dependencies #install dependencies from requirements.txt
         run: python -m pip install -r requirements.txt
 
-      - name: Run training script
+      - name: Run training script    #train the model 
         run: |
           python train.py    
           ls -la artifacts/
 
-      - name: Upload artifacts
+      - name: Upload artifacts  #save trained model artifacts
         uses: actions/upload-artifact@v4
         with:
           name: model-artifacts-${{ matrix.python-version }}-${{ github.run_id }}    
