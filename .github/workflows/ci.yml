@@ -1,0 +1,42 @@
+name: CI -model train
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  matrix-pip:        
+    name: Train -model
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12]
+
+    steps:    
+      - name: Checkout 
+        uses: actions/checkout@v4
+
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Upgrade  pip
+        run: python -m pip --upgrade pip setuptools wheel
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run training script
+        run: |
+          python train.py    
+          ls -la artifacts/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts-${{ matrix.python-version }}-${{ github.run_id }}    
+          path: artifacts/
